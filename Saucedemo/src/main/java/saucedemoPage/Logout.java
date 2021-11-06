@@ -14,11 +14,11 @@ import com.aventstack.extentreports.ExtentReports;
 import com.aventstack.extentreports.ExtentTest;
 import com.aventstack.extentreports.reporter.ExtentHtmlReporter;
 
-public class Login_Fail {
+public class Logout {
 	@Test
 	public void testNGAsserts() throws Exception{
 		// Source file (spreadsheet)
-		FileInputStream fs = new FileInputStream("./src/test/resources/LoginWrongCredentials.xlsx");
+		FileInputStream fs = new FileInputStream("./src/test/resources/LoginCredentials.xlsx");
 		@SuppressWarnings("resource")
 		XSSFWorkbook workbook = new XSSFWorkbook(fs);
 		XSSFSheet sheet = workbook.getSheetAt(0);
@@ -33,10 +33,10 @@ public class Login_Fail {
 		WebDriver driver2 = new FirefoxDriver();
 		
 		// ExtentReports
-		ExtentHtmlReporter htmlReporter = new ExtentHtmlReporter("Login_Fail.html");
+		ExtentHtmlReporter htmlReporter = new ExtentHtmlReporter("Logout.html");
 		ExtentReports extent = new ExtentReports();
 		extent.attachReporter(htmlReporter);
-		ExtentTest logStep = extent.createTest("Failed Login", "Validate failed login error message");
+		ExtentTest logStep = extent.createTest("Logout", "Validate logout functionality");
 		
 	logStep.info("Step 1: Open website (Firefox and Chrome)");
 		driver.get("https://www.saucedemo.com/");
@@ -60,16 +60,34 @@ public class Login_Fail {
 		driver2.findElement(By.xpath("//*[@id='login-button']")).click();
 		Thread.sleep(1000);
 		
-	logStep.info("Step 3: Asserting if login failed and expected error is displayed");		
-        String expText = "Epic sadface: Username and password do not match any user in this service";
-        String expText2 = "Epic sadface: Username and password do not match any user in this service";
-		String errorMessage = driver.findElement(By.xpath("//*[text()='Epic sadface: Username and password do not match any user in this service']")).getText();
-		String errorMessage2 = driver2.findElement(By.xpath("//*[text()='Epic sadface: Username and password do not match any user in this service']")).getText();
-        Assert.assertEquals(errorMessage, expText);
-        Assert.assertEquals(errorMessage2, expText2);
-        System.out.println(errorMessage);
-        System.out.println(errorMessage2);
-        logStep.pass("Login failed"); 
+	logStep.info("Step 3: Asserting if user is logged in");		
+        String expText = "PRODUCTS";
+        String expText2 = "PRODUCTS";
+		String productPage = driver.findElement(By.xpath("//*[@id='header_container']/div[2]/span")).getText();
+		String productPage2 = driver2.findElement(By.xpath("//*[@id='header_container']/div[2]/span")).getText();
+        Assert.assertEquals(productPage, expText);
+        Assert.assertEquals(productPage2, expText2);
+        System.out.println(productPage);
+        System.out.println(productPage2);
+        logStep.pass("Login success"); 
+        
+    logStep.info("Step 4 : Asserting if is able to log out");
+		driver.findElement(By.xpath("//*[@id='react-burger-menu-btn']")).click();
+		driver2.findElement(By.xpath("//*[@id='react-burger-menu-btn']")).click();
+		Thread.sleep(1000);
+		driver.findElement(By.xpath("//*[@id='logout_sidebar_link']")).click();
+		driver2.findElement(By.xpath("//*[@id='logout_sidebar_link']")).click();
+		Thread.sleep(1000);
+        String logoutText = "Accepted usernames are:";
+        String logoutText1 = "Accepted usernames are:";
+		String logoutPage = driver.findElement(By.xpath("//*[text()='Accepted usernames are:']")).getText();
+		String logoutPage1 = driver2.findElement(By.xpath("//*[text()='Accepted usernames are:']")).getText();
+        Assert.assertEquals(logoutPage, logoutText);
+        Assert.assertEquals(logoutPage1, logoutText1);
+        System.out.println("Logout page is displayed");
+        System.out.println("Logout page is displayed");
+        logStep.pass("Loggout success"); 
+		
 		driver.close();
 		driver2.close();
 	logStep.info("End of the test");

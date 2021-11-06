@@ -36,7 +36,7 @@ public class Login {
 		ExtentHtmlReporter htmlReporter = new ExtentHtmlReporter("Login.html");
 		ExtentReports extent = new ExtentReports();
 		extent.attachReporter(htmlReporter);
-		ExtentTest logStep = extent.createTest("Login", "Login with a valid user");
+		ExtentTest logStep = extent.createTest("Login", "Validate login functionality");
 		
 	logStep.info("Step 1: Open website (Firefox and Chrome)");
 		driver.get("https://www.saucedemo.com/");
