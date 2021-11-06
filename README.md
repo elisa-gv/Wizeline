@@ -42,7 +42,7 @@ The next POM dependencies were used to add ExtentReports and to be able to read 
 		</dependency>
 </dependencies>
 
-The test results can be seen in html for each test case using ExtentReports. The html files are under test-output folder, alomg with the pom and the testng xmls.
+The test results can be seen in html for each test case using ExtentReports. The html files are under test-output folder, along with the pom and the testng xmls.
 
 Please reach me out for any questions.
 
