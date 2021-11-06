@@ -14,11 +14,11 @@ import com.aventstack.extentreports.ExtentReports;
 import com.aventstack.extentreports.ExtentTest;
 import com.aventstack.extentreports.reporter.ExtentHtmlReporter;
 
-public class Login {
+public class Login_Fail {
 	@Test
 	public void testNGAsserts() throws Exception{
 		// Source file (spreadsheet)
-		FileInputStream fs = new FileInputStream("./src/test/resources/LoginCredentials.xlsx");
+		FileInputStream fs = new FileInputStream("./src/test/resources/LoginWrongCredentials.xlsx");
 		@SuppressWarnings("resource")
 		XSSFWorkbook workbook = new XSSFWorkbook(fs);
 		XSSFSheet sheet = workbook.getSheetAt(0);
@@ -60,16 +60,16 @@ public class Login {
 		driver2.findElement(By.xpath("//*[@id='login-button']")).click();
 		Thread.sleep(1000);
 		
-	logStep.info("Step 3: Asserting if user is logged in");		
-        String expText = "PRODUCTS";
-        String expText2 = "PRODUCTS";
-		String productPage = driver.findElement(By.xpath("//*[@id='header_container']/div[2]/span")).getText();
-		String productPage2 = driver2.findElement(By.xpath("//*[@id='header_container']/div[2]/span")).getText();
-        Assert.assertEquals(productPage, expText);
-        Assert.assertEquals(productPage2, expText2);
-        System.out.println(productPage);
-        System.out.println(productPage2);
-        logStep.pass("Login success"); 
+	logStep.info("Step 3: Asserting if login failed and expected error is displayed");		
+        String expText = "Epic sadface: Username and password do not match any user in this service";
+        String expText2 = "Epic sadface: Username and password do not match any user in this service";
+		String errorMessage = driver.findElement(By.xpath("//*[text()='Epic sadface: Username and password do not match any user in this service']")).getText();
+		String errorMessage2 = driver2.findElement(By.xpath("//*[text()='Epic sadface: Username and password do not match any user in this service']")).getText();
+        Assert.assertEquals(errorMessage, expText);
+        Assert.assertEquals(errorMessage2, expText2);
+        System.out.println(errorMessage);
+        System.out.println(errorMessage2);
+        logStep.pass("Login failed"); 
 		driver.close();
 		driver2.close();
 	logStep.info("End of the test");
